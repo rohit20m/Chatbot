@@ -1,0 +1,16 @@
+CaseId,Subject,Description,Priority,Status
+C001,Login Issue,User unable to login to Salesforce,High,Open
+C002,Access Error,Permission denied while accessing report,Medium,Closed
+C003,Password Reset,User forgot password and cannot login,Low,Open
+C004,Page Not Loading,Salesforce page stuck on loading,High,Open
+C005,Email Sync Failure,Emails not syncing with Salesforce,Medium,In Progress
+C006,Report Export Error,Unable to export report to Excel,High,Closed
+C007,Dashboard Missing,User cannot see assigned dashboard,Low,Open
+C008,Data Sync Delay,Records not syncing from external system,Medium,In Progress
+C009,Validation Rule Error,Unable to save record due to validation error,High,Open
+C010,API Limit Exceeded,Integration stopped due to API limit,High,Escalated
+C011,Profile Update Issue,Changes not reflecting after profile update,Low,Closed
+C012,Workflow Not Triggered,Workflow rule not executing as expected,Medium,Open
+C013,Attachment Upload Failed,Unable to upload attachment to case,Low,Open
+C014,Mobile App Crash,Salesforce mobile app crashing frequently,High,In Progress
+C015,Duplicate Records,Duplicate leads being created,Medium,Open
