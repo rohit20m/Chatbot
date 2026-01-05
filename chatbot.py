@@ -3,21 +3,22 @@ import sys
 
 try:
     csv_data = pd.read_csv("cases.csv")
+    # csv_data = pd.read_csv("casefeed.csv")
 
 except FileNotFoundError:
-    print("Error: 'cases.csv' not found. Place it next to this script and retry.")
+    print("Error: File not found!!!!!!. Please check the file name again.")
     sys.exit(1)
 
 except pd.errors.EmptyDataError:
-    print("Error: 'cases.csv' is empty.")
+    print("Error: file is empty.")
     sys.exit(1)
 
 except pd.errors.ParserError:
-    print("Error: 'cases.csv' is malformed or cannot be parsed.")
+    print("Error: File is malformed or cannot be parsed.")
     sys.exit(1)
 
 except Exception as e:
-    print(f"Unexpected error reading 'cases.csv': {e}")
+    print(f"Unexpected error reading the File: {e}")
     sys.exit(1)
 
 print("-------------------------------------------------------------------------------------")
@@ -34,14 +35,13 @@ print("-------------------------------------------------------------------------
 
 # Prints Total number of cases
 
-total_status = len(csv_data)
-
-print(f"Total number of cases are: {total_status}")
+total_cases = len(csv_data)
+print(f"Total number of cases are: {total_cases}")
 
 print("-------------------------------------------------------------------------------------")
 
 while True:
-    user_input = input("Use the following inputs to explore more :- \n To view Case Status Summary please Type - 'status' \n To view Case Status subject Summary please Type - 'subject' \n To exit , please type - 'exit' \n Enter your Input here: ").lower()
+    user_input = input("Use the following inputs to explore more :- \n To view Case Status Summary please Type - 'status' \n To view Case Priority Summary please Type - 'priority' \n To exit , please type - 'exit' \n Enter your Input here: \n").lower()
 
     # Exit Logic
     if user_input == "exit":
@@ -49,9 +49,8 @@ while True:
         break
 
     # Case Status Summary Logic
-
     elif user_input == "status":
-        print("Case Status Summary: ")
+        print("Case Status Summary Details:- \n")
         if "Status" not in csv_data.columns:
             print("Bot: 'Status' column not found in CSV.")
         else:
@@ -61,16 +60,16 @@ while True:
                 print(f"The total Number of case status {status} are: {count}")
                 print("-------------------------------------------------------------------------------------")
 
-    # Case Subject Summary Logic
-
-    elif user_input == "subject":
-        total_subjects = len(csv_data)
-        print(f"The Total number of subjects are: {total_subjects}")
-
-    # elif user_input == "status":
-
-    # User invalid Logic
-
+    # Case Priority Summary Logic
+    elif user_input == "priority":
+        print("Case Priority Summary Details:- \n")
+        priority_count = csv_data['Priority'].value_counts()
+        
+        for priority, count in priority_count.items():
+            print(f"The total Number of Priority {priority} are: {count}")
+            print("-------------------------------------------------------------------------------------")
+            
+    # User Invalid Input Logic
     else:
         print("Bot: This feature is not available right now.")
         print("Bot: You can try 'count' or 'status'.")
