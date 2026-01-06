@@ -1,4 +1,4 @@
-import pandas as pd  
+import pandas as pd
 import sys
 
 try:
@@ -50,25 +50,39 @@ while True:
 
     # Case Status Summary Logic
     elif user_input == "status":
-        print("Case Status Summary Details:- \n")
+        print("\nCase Status Summary Details:- \n")
+
         if "Status" not in csv_data.columns:
-            print("Bot: 'Status' column not found in CSV.")
+            print("-------------------------------------------------------------------------------------")
+            print("Status column not found in CSV.")
+            print("Please check the CSV file and try again.")
+            print("-------------------------------------------------------------------------------------")
+
         else:
-            status_count = csv_data["Status"].value_counts()
+            status_count = csv_data.groupby("Status").size()
+
             print("-------------------------------------------------------------------------------------")
             for status, count in status_count.items():
-                print(f"The total Number of case status {status} are: {count}")
-                print("-------------------------------------------------------------------------------------")
+                print(f"The total number of cases with status '{status}' are: {count}")
+            print("-------------------------------------------------------------------------------------")
 
     # Case Priority Summary Logic
     elif user_input == "priority":
-        print("Case Priority Summary Details:- \n")
-        priority_count = csv_data['Priority'].value_counts()
-        
-        for priority, count in priority_count.items():
-            print(f"The total Number of Priority {priority} are: {count}")
+        print("-------------------------------------------------------------------------------------")
+        print("\n Priority - wise Open and Closed Case Summary:- \n")
+
+        if "Priority" not in csv_data.columns and "Status" not in csv_data.columns:
             print("-------------------------------------------------------------------------------------")
-            
+            print("'Priority' and 'Status' columns not found in CSV.")
+            print("Please check the CSV file and try again.")
+            print("-------------------------------------------------------------------------------------")
+        else:
+            # Group by Priority and Status to get counts
+            print("-------------------------------------------------------------------------------------")
+            priority_status_summary = csv_data.groupby(["Priority", "Status"]).size().unstack(fill_value=0)
+            print(priority_status_summary)
+            # for (priority, status)
+
     # User Invalid Input Logic
     else:
         print("Bot: This feature is not available right now.")
