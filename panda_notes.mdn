@@ -1,22 +1,15 @@
 Pandas Features Used So Far
 
-read_csv()
-Loads data from a CSV file into Python as a structured table (DataFrame).
+read_csv()  - Loads data from a CSV file into Python as a structured table (DataFrame).
 
-DataFrame object
-The main Pandas data structure that stores rows and columns like an Excel sheet.
+DataFrame object - The main Pandas data structure that stores rows and columns like an Excel sheet.
 
-.columns check
-Used to verify whether a particular column exists in the DataFrame before performing operations.
+.columns check - Used to verify whether a particular column exists in the DataFrame before performing operations.
 
-groupby()
-Groups the data based on one or more columns to perform calculations on each group.
+groupby() - Groups the data based on one or more columns to perform calculations on each group.
 
-size()
-After grouping, counts how many rows are present in each group.
+size() - After grouping, counts how many rows are present in each group.
 
-unstack(fill_value=0)
-Converts grouped results into a pivot-table format, replacing missing combinations with 0.
+unstack(fill_value=0) - Converts grouped results into a pivot-table format, replacing missing combinations with 0.
 
-Iterating with .items()
-Helps loop through summary results (like dictionaries) to print status and their counts.
+Iterating with .items() - Helps loop through summary results (like dictionaries) to print status and their counts.
