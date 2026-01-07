@@ -81,6 +81,7 @@ while True:
             print("-------------------------------------------------------------------------------------")
             priority_status_summary = csv_data.groupby(["Priority", "Status"]).size().unstack(fill_value=0)
             print(priority_status_summary)
+            print("-------------------------------------------------------------------------------------\n")
             # for (priority, status)
 
     # User Invalid Input Logic
