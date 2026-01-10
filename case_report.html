@@ -1,0 +1,266 @@
+
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Case Data Report</title>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+        <style>
+            body { padding: 2rem; }
+            h1 { margin-bottom: 1.5rem; }
+            .table { table-layout: fixed; width: 100%; }
+            th { white-space: nowrap; }
+            td { word-break: break-word; }
+            #summary-container { max-width: 600px; } /* Limit width of summary table */
+            /* Column Widths */
+            .table th:nth-child(1), .table td:nth-child(1) { width: 10%; }
+            .table th:nth-child(2), .table td:nth-child(2) { width: 25%; }
+            .table th:nth-child(3), .table td:nth-child(3) { width: 50%; }
+            .table th:nth-child(4), .table td:nth-child(4) { width: 15%; }
+        </style>
+    </head>
+    <body>
+        <div class="container-fluid">
+            <h1>Case Data Report</h1>
+            <p>Total cases found: 26</p>
+            
+            <!-- NEW: The button to toggle the summary -->
+            <button id="toggle-summary-btn" class="btn btn-primary mb-3">Show Case Status Summary</button>
+            
+            <!-- NEW: The hidden container for the summary table -->
+            <div id="summary-container" style="display: none;">
+                <h2>Case Status Summary</h2>
+                <table border="1" class="dataframe table table-bordered mt-3">
+  <thead>
+    <tr style="text-align: left;">
+      <th>Status</th>
+      <th>Total Cases</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Closed</td>
+      <td>8</td>
+    </tr>
+    <tr>
+      <td>Fix Validated</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <td>Fix in progress</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <td>L2 Analysis Required</td>
+      <td>4</td>
+    </tr>
+    <tr>
+      <td>L3 Analysis Required</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <td>Resolved</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <td>Waiting for Customer</td>
+      <td>8</td>
+    </tr>
+  </tbody>
+</table>
+            </div>
+
+            <hr> <!-- A separator line for clarity -->
+
+            <!-- The main table of all cases -->
+            <div class="table-responsive">
+                <table border="1" class="dataframe table table-striped table-hover">
+  <thead>
+    <tr style="text-align: left;">
+      <th>Case Number</th>
+      <th>Subject</th>
+      <th>Description</th>
+      <th>Status</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>1</td>
+      <td>R704's loaded Excel file did not upload into the task and expired</td>
+      <td></td>
+      <td>L3 Analysis Required</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>Drug Test Order Form Issue</td>
+      <td></td>
+      <td>L2 Analysis Required</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>Drug Test Order Form Issue</td>
+      <td></td>
+      <td>L2 Analysis Required</td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td>External survey - Skips not working</td>
+      <td></td>
+      <td>Closed</td>
+    </tr>
+    <tr>
+      <td>5</td>
+      <td>Search Filter in Project Inbox to Default to "All" under Status.</td>
+      <td></td>
+      <td>Closed</td>
+    </tr>
+    <tr>
+      <td>7</td>
+      <td>Search Filter in Project Inbox to Default to "All" under Status.</td>
+      <td></td>
+      <td>Closed</td>
+    </tr>
+    <tr>
+      <td>10</td>
+      <td>Drug Test Order Form Issue</td>
+      <td></td>
+      <td>L2 Analysis Required</td>
+    </tr>
+    <tr>
+      <td>17</td>
+      <td>MYWORK 25.9 [UK/ROI] - Project inbox search for Gatekeeper providing inaccurate results</td>
+      <td></td>
+      <td>Waiting for Customer</td>
+    </tr>
+    <tr>
+      <td>26</td>
+      <td>MYWORK 25.9 [UK/ROI] - Project inbox search for Gatekeeper providing inaccurate results</td>
+      <td></td>
+      <td>Waiting for Customer</td>
+    </tr>
+    <tr>
+      <td>24118069</td>
+      <td>Quick Links Management Tool</td>
+      <td>Please enable the quick links management tool so we can....manage our quick links! :-)</td>
+      <td>Waiting for Customer</td>
+    </tr>
+    <tr>
+      <td>24164201</td>
+      <td>Walk Picture Attachment Issue</td>
+      <td>One of our Area Managers is having issues when trying to attach images to the P11 AM Walk. Mark Soroka employee ID 206689\n\nWhen taking a picture through the app under any of the sections, it first shows as green in color as you can see in the first picture and then turns the picture to orange as you see in the second picture. Unable to attach.\n\nWhen taking a picture outside of the app and then try to use that picture, it says the file isn't allowed to be used in the app (picture 3).\n\nWe can verify other users are able to attach pictures (see in image 4 a successful attempt).\n\nThe app version is included in the final image. \n\nThey claim to have experienced the same issue on last months AM Walk (P10 AM Walk). Issue seems to only be with these specific walks but they have not had to use this function in other walks recently.</td>
+      <td>Waiting for Customer</td>
+    </tr>
+    <tr>
+      <td>24235121</td>
+      <td>Error en datos de Caminatas</td>
+      <td>Que tal equipo\n\nUn Gerente nos señalo que no se vió reflejada la caminata que hizo en el reporte de puntación de caminatas.\n\nNos pueden apoyar a validar por que no se hizo?\nComparto la pantalla del usuario y la pantalla del reporte donde no aparece,\nse revisaron fechas, filtros y todo parece estar bien.\n\nSaludos.\nArturo Ramírez Que tal equipo\n\nUn Gerente nos señalo que no se vió reflejada la caminata que hizo en el reporte de puntación de caminatas.\n\nNos pueden apoyar a validar por que no se hizo?\nComparto la pantalla del usuario y la pantalla del reporte donde no aparece,\nse revisaron fechas, filtros y todo parece estar bien.\n\nSaludos.\nArturo Ramírez</td>
+      <td>Fix Validated</td>
+    </tr>
+    <tr>
+      <td>24245668</td>
+      <td>Sort list page by launch date</td>
+      <td>Good morning,\nWe were having issues where proejcts that were put through ahead of time, ended up showing up in the project list toward the bottom.  Case 22726100 addressed the issue to show projects based on Launch date vs Approve and Pending Launch date.  We now need to have the projects show up in the project list based on Launch date.\nThank you,\nJesse Vernon Good morning,\nWe were having issues where proejcts that were put through ahead of time, ended up showing up in the project list toward the bottom.  Case 22726100 addressed the issue to show projects based on Launch date vs Approve and Pending Launch date.  We now need to have the projects show up in the project list based on Launch date.\nThank you,\nJesse Vernon</td>
+      <td>Closed</td>
+    </tr>
+    <tr>
+      <td>24245846</td>
+      <td>Drug Test Order Form Issue</td>
+      <td>Good morning,\nA store reached out today asking why they haven't received some drug test kit they ordered back on 6/27.  I logged into the stores profile and noticed that the drug test form that they filled out was still showing Pending Review in the history tab even though the status was showing complete.  The form should have went to Linda or I after it was submitted but it never showed up (as you can see in the history flow).  I have attached a screenshot showing the form in question.  If you need to log into the store the username and password are both 1227.\nThank you,\nJesse Vernon</td>
+      <td>L2 Analysis Required</td>
+    </tr>
+    <tr>
+      <td>24246182</td>
+      <td>Employees in Form flow aren't getting Form and are being skipped</td>
+      <td>Good morning,\nWe noticed in a number of our stores that there are missing members in the flow of our "Maintece Request Form - v2.3.1".  I provided screenshots from store #1229 but this was also seen in a number of other stores over the past couple months, with store #1215 being another one.  The Form flow should be the store creating the Form, then the Territory Supervisor either manually approves or it auto approves after one hour.  It ends with our Development team.  The Territory Supervisor is getting missed on random Forms.  Please see screenshots of the correct flow vs when the Territory Supervisor is being skipped by the system.\nThank you,\nJesse Vernon Good morning,\nWe noticed in a number of our stores that there are missing members in the flow of our "Maintece Request Form - v2.3.1".  I provided screenshots from store #1229 but this was also seen in a number of other stores over the past couple months, with store #1215 being another one.  The Form flow should be the store creating the Form, then the Territory Supervisor either manually approves or it auto approves after one hour.  It ends with our Development team.  The Territory Supervisor is getting missed on random Forms.  Please see screenshots of the correct flow vs when the Territory Supervisor is being skipped by the system.\nThank you,\nJesse Vernon</td>
+      <td>Fix in progress</td>
+    </tr>
+    <tr>
+      <td>24258825</td>
+      <td>Search Filter in Project Inbox to Default to "All" under Status.</td>
+      <td>When using filter under Project Inbox, default status to "all".</td>
+      <td>Closed</td>
+    </tr>
+    <tr>
+      <td>24265451</td>
+      <td>R704's loaded Excel file did not upload into the task and expired</td>
+      <td>Issue: R704 tried to finish project's  "RĪKOJUMS+UZD: Darbinieku datu pārbaude un labošana" task. They loaded Excel file, got a notification that file was loaded and task disappeared. But the project and task shows as Expired for them. When you click on the task's responces from their view you can see the file. But when you check project's responses from admin side you do not see R704's answer.\nExpectations: Issue is fixed.\nSteps: 1. Log in to R704 store director, 2. Search for project "RĪKOJUMS+UZD: Darbinieku datu pārbaude un labošana"; 3. Check project's task responces, see that there is an Excel file; 4. Check task's history, see that store director was completing this task; 5. Switch to DIVISION Administrator; 6. Find the same project; 7. Check responces from store R704, see that there arent any; 8. Check task's and project's completion, see that R704 counts as expired.</td>
+      <td>L3 Analysis Required</td>
+    </tr>
+    <tr>
+      <td>24298940</td>
+      <td>Rendering notes section</td>
+      <td>see attached, any idea why the text drops off the notes section? see attached, any idea why the text drops off the notes section?</td>
+      <td>Waiting for Customer</td>
+    </tr>
+    <tr>
+      <td>24317958</td>
+      <td>Estatus de Tarea Erronea</td>
+      <td>Hola Daniel,\n\nTengo un caso con una tarea programable que se está cerrando minutos antes de la hora establecida. Este comportamiento se está presentando en dos tiendas, donde al cerrar la tarea aproximadamente 2 minutos antes del límite, el sistema la marca como tarea vencida. En el reporte sale como termianda tarde.\nAdjunto imagen, el nombre de la tarea y las tiendas afectadas para su revisión.\n\nTiendas Afectadas:\n    - Lurin Fecha de la tarea 10/12/2025\n    - Villa Salvador Fecha de la tarea 07/12/2025\n\nSaludos.</td>
+      <td>Resolved</td>
+    </tr>
+    <tr>
+      <td>24324268</td>
+      <td>Updating Attributes Issue</td>
+      <td>Identified issue with attributes file. When manually adding a file using the data upload functionality, we do not see the new attribute reflected, even after a day waiting to sync. Example attached of existing district next to one that we attempted to add through the data load. Attached is the file we tried to use. Identified issue with attributes file. When manually adding a file using the data upload functionality, we do not see the new attribute reflected, even after a day waiting to sync. Example attached of existing district next to one that we attempted to add through the data load. Attached is the file we tried to use. Identified issue with attributes file. When manually adding a file using the data upload functionality, we do not see the new attribute reflected, even after a day waiting to sync. Example attached of existing district next to one that we attempted to add through the data load. Attached is the file we tried to use.</td>
+      <td>Closed</td>
+    </tr>
+    <tr>
+      <td>24337251</td>
+      <td>External survey - Skips not working</td>
+      <td>Please assign ticket to Snehal. \n\nExternal walk: Evaluatie Nieuwe Werkplek\n\nSkip that is working: First 7 scale question (Makkelijke werkplek), skips that arent working: all other 7 scale questions in the survey Please assign ticket to Snehal. \n\nExternal walk: Evaluatie Nieuwe Werkplek\n\nSkip that is working: First 7 scale question (Makkelijke werkplek), skips that arent working: all other 7 scale questions in the survey</td>
+      <td>Closed</td>
+    </tr>
+    <tr>
+      <td>24347061</td>
+      <td>Removing stores from reoccurring projects for a specific date</td>
+      <td>We have some projects with walks assigned that are reoccurring.\nOn certain days over Xmas and New Year, the departments will be closed, so the task will need to be removed.\nIs there a way we can removed these stores in advance please?\ni have attached an example.</td>
+      <td>Waiting for Customer</td>
+    </tr>
+    <tr>
+      <td>24395903</td>
+      <td>Front end users seeing skips logic</td>
+      <td>Hello,\n\nOur Walk users are advising they're able to see skips logic on screen when they're completing Walks. Is that expected behaviour that these would show during the completion of a Walk? As an example, in pre-production, the Compliance Self Audit under the Self Audit Category shows this in both desktop and mobile. I'd only expect to see this when in preview or mock run.\n\nAttached is a screen shot of what users see.\n\nKind regards,\n\nJayne</td>
+      <td>Waiting for Customer</td>
+    </tr>
+    <tr>
+      <td>24401446</td>
+      <td>Capacity upload errors</td>
+      <td>Hi, see attached, we are getting al kinds of errors but cant figure out what is wrong, our formatting hasn't changed</td>
+      <td>Fix in progress</td>
+    </tr>
+    <tr>
+      <td>24413250</td>
+      <td>Need to revert project recall on 'Daily Food Safety Recording'</td>
+      <td>There was an accidental recall on this Safe &amp; Legal project, resulting in the historical data no longer being viewable.\n\nIt is imperative that we have access to this data as it is referred to in Safe &amp; Legal audits.\n\nPlease can you revert this recall so that the historical projects return to their original status.</td>
+      <td>Closed</td>
+    </tr>
+    <tr>
+      <td>24424342</td>
+      <td>MYWORK 25.9 [UK/ROI] - Project inbox search for Gatekeeper providing inaccurate results</td>
+      <td>When Sharon (UK08238766) in the UK Gatekeeper team does a search with Status as 'Submitted' and Department as 'Business Support - Food' and 'Business Support - GM', it pulls through the correct results, but also results for colleagues that sit in alternative roles.\n\nIn the screenshot 'incorrect filter options' (attached) you can see it's got results for Engineer visit (created by a colleague in Technology) and Christmas and New Year targeted reductions (created by a colleague in Business Support - Operating model).\n\nWhen I switch my profile into Gatekeeper view and complete the same search I always get correct results as to be expected. Is there something particular with Sharon's profile that is leading to these incorrect results showing? When Sharon (UK08238766) in the UK Gatekeeper team does a search with Status as 'Submitted' and Department as 'Business Support - Food' and 'Business Support - GM', it pulls through the correct results, but also results for colleagues that sit in alternative roles.\n\nIn the screenshot 'incorrect filter options' (attached) you can see it's got results for Engineer visit (created by a colleague in Technology) and Christmas and New Year targeted reductions (created by a colleague in Business Support - Operating model).\n\nWhen I switch my profile into Gatekeeper view and complete the same search I always get correct results as to be expected. Is there something particular with Sharon's profile that is leading to these incorrect results showing? When Sharon (UK08238766) in the UK Gatekeeper team does a search with Status as 'Submitted' and Department as 'Business Support - Food' and 'Business Support - GM', it pulls through the correct results, but also results for colleagues that sit in alternative roles.\n\nIn the screenshot 'incorrect filter options' (attached) you can see it's got results for Engineer visit (created by a colleague in Technology) and Christmas and New Year targeted reductions (created by a colleague in Business Support - Operating model).\n\nWhen I switch my profile into Gatekeeper view and complete the same search I always get correct results as to be expected. Is there something particular with Sharon's profile that is leading to these incorrect results showing?</td>
+      <td>Waiting for Customer</td>
+    </tr>
+  </tbody>
+</table>
+            </div>
+        </div>
+
+        <!-- NEW: JavaScript to make the button work -->
+        <script>
+            const toggleBtn = document.getElementById('toggle-summary-btn');
+            const summaryContainer = document.getElementById('summary-container');
+
+            toggleBtn.addEventListener('click', () => {
+                if (summaryContainer.style.display === 'none') {
+                    summaryContainer.style.display = 'block';
+                    toggleBtn.textContent = 'Hide Case Status Summary';
+                } else {
+                    summaryContainer.style.display = 'none';
+                    toggleBtn.textContent = 'Show Case Status Summary';
+                }
+            });
+        </script>
+    </body>
+    </html>
+    
