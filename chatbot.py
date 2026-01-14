@@ -30,11 +30,14 @@ try:
     # --- Step 2: Generate HTML for BOTH tables ---
     print("Step 2: Generating HTML for main report and status summary...")
     # Main table for all cases
-    main_html_table = df_final.to_html(index=False, justify='left', classes='table table-striped table-hover')
+    main_html_table = df_final.to_html(
+        index=False, justify='left', classes='table table-striped table-hover')
 
     # NEW: Create a summary DataFrame and convert it to a simple HTML table
-    status_summary_df = df_final.groupby("Status").size().reset_index(name='Total Cases')
-    summary_html_table = status_summary_df.to_html(index=False, justify='left', classes='table table-bordered mt-3')
+    status_summary_df = df_final.groupby(
+        "Status").size().reset_index(name='Total Cases')
+    summary_html_table = status_summary_df.to_html(
+        index=False, justify='left', classes='table table-bordered mt-3')
 
     # --- Step 3: Create the final HTML document with the button and hidden summary ---
     html_template = f"""
@@ -63,10 +66,10 @@ try:
         <div class="container-fluid">
             <h1>Case Data Report</h1>
             <p>Total cases found: {len(df_final)}</p>
-            
+
             <!-- NEW: The button to toggle the summary -->
             <button id="toggle-summary-btn" class="btn btn-primary mb-3">Show Case Status Summary</button>
-            
+
             <!-- NEW: The hidden container for the summary table -->
             <div id="summary-container" style="display: none;">
                 <h2>Case Status Summary</h2>
