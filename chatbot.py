@@ -19,9 +19,9 @@ try:
     df_raw['Description'] = df_raw['Description'].astype(str).fillna('')
     df_grouped = df_raw.groupby("Case Number").agg({
         'Subject': 'first',
-        'Description': lambda x: ' '.join(x).replace('nan', '').strip(),
+        'Description': ' '.join,
         'Status': 'first'
-    }).reset_index()
+    })
     df_grouped['Case Number'] = df_grouped['Case Number'].astype(int)
     df_final = df_grouped[final_columns]
 
