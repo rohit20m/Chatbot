@@ -1,0 +1,44 @@
+/* Custom Styles for AI Support Dashboard */
+body {
+    padding: 2rem;
+    /* This variable changes automatically between light/dark in Bootstrap */
+    background-color: var(--bs-body-bg);
+}
+
+.dashboard-card {
+    /* Using variables ensures cards turn dark in dark mode */
+    background: var(--bs-tertiary-bg);
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    margin-bottom: 20px;
+    border: 1px solid var(--bs-border-color);
+}
+
+.metric-val {
+    font-size: 1.8rem;
+    font-weight: bold;
+}
+
+.table {
+    table-layout: fixed;
+    width: 100%;
+}
+
+th {
+    white-space: nowrap;
+}
+
+td {
+    word-break: break-word;
+}
+
+#summary-container {
+    max-width: 600px;
+}
+
+/* Column Widths */
+.table th:nth-child(1), .table td:nth-child(1) { width: 10%; }
+.table th:nth-child(2), .table td:nth-child(2) { width: 25%; }
+.table th:nth-child(3), .table td:nth-child(3) { width: 50%; }
+.table th:nth-child(4), .table td:nth-child(4) { width: 15%; }
