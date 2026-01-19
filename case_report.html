@@ -1,43 +1,32 @@
 
-    <!DOCTYPE html>
-    <html lang="en" data-bs-theme="light">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Support AI Dashboard</title>
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-        <link rel="stylesheet" href="style.css">
-    </head>
-    <body>
-        <div class="container-fluid">
-            <div class="d-flex justify-content-between align-items-center mb-4">
-                <h1>Support Case AI Dashboard</h1>
-                <button id="theme-toggle" class="btn btn-outline-secondary">🌓 Switch Theme</button>
-            </div>
-
-            <div class="row mb-4">
-                <div class="col-md-4">
-                    <div class="dashboard-card">
-                        <div class="text-muted">Team Efficiency</div>
-                        <div class="metric-val text-primary">30.77%</div>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="dashboard-card">
-                        <div class="text-muted">Urgent Alerts</div>
-                        <div class="metric-val text-danger">0</div>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="dashboard-card">
-                        <div class="text-muted">Total Load</div>
-                        <div class="metric-val">26</div>
-                    </div>
-                </div>
-            </div>
-
-            <button id="toggle-summary-btn" class="btn btn-primary mb-3">Toggle Case Summary View</button>
-            <div id="summary-container" style="display: none;"><table border="1" class="dataframe table table-bordered mt-3">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Case Data Report</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body { padding: 2rem; }
+        h1 { margin-bottom: 1.5rem; }
+        .table { table-layout: fixed; width: 100%; }
+        th { white-space: nowrap; }
+        td { word-break: break-word; }
+        #summary-container { max-width: 600px; }
+        .table th:nth-child(1), .table td:nth-child(1) { width: 10%; }
+        .table th:nth-child(2), .table td:nth-child(2) { width: 25%; }
+        .table th:nth-child(3), .table td:nth-child(3) { width: 50%; }
+        .table th:nth-child(4), .table td:nth-child(4) { width: 15%; }
+    </style>
+</head>
+<body>
+    <div class="container-fluid">
+        <h1>Case Data Report</h1>
+        <p>Total cases found: 26</p>
+        <button id="toggle-summary-btn" class="btn btn-primary mb-3">Show Case Status Summary</button>
+        <div id="summary-container" style="display: none;">
+            <h2>Case Status Summary</h2>
+            <table border="1" class="dataframe table table-bordered mt-3">
   <thead>
     <tr style="text-align: left;">
       <th>Status</th>
@@ -74,11 +63,10 @@
       <td>8</td>
     </tr>
   </tbody>
-</table></div>
-
-            <hr>
-            <div class="table-responsive">
-                <table border="1" class="dataframe table table-striped table-hover">
+</table>
+        </div>
+        <hr>
+        <div class="table-responsive"><table border="1" class="dataframe table table-striped table-hover">
   <thead>
     <tr style="text-align: left;">
       <th>Case Number</th>
@@ -245,35 +233,16 @@
       <td>Waiting for Customer</td>
     </tr>
   </tbody>
-</table>
-            </div>
-        </div>
-
-        <script>
-            // Logic 1: Summary Table Toggle
-            const toggleBtn = document.getElementById('toggle-summary-btn');
-            const summaryContainer = document.getElementById('summary-container');
-            toggleBtn.addEventListener('click', () => {
-                if (summaryContainer.style.display === 'none') {
-                    summaryContainer.style.display = 'block';
-                    toggleBtn.textContent = 'Hide Summary';
-                } else {
-                    summaryContainer.style.display = 'none';
-                    toggleBtn.textContent = 'Show Summary';
-                }
-            });
-
-            // Logic 2: Bootstrap Dark Mode Switcher
-            const themeToggleBtn = document.getElementById('theme-toggle');
-            themeToggleBtn.addEventListener('click', () => {
-                const htmlElement = document.documentElement;
-                if (htmlElement.getAttribute('data-bs-theme') === 'light') {
-                    htmlElement.setAttribute('data-bs-theme', 'dark');
-                } else {
-                    htmlElement.setAttribute('data-bs-theme', 'light');
-                }
-            });
-        </script>
-    </body>
-    </html>
-    
+</table></div>
+    </div>
+    <script>
+        const toggleBtn = document.getElementById('toggle-summary-btn');
+        const summaryContainer = document.getElementById('summary-container');
+        toggleBtn.addEventListener('click', () => {
+            const isHidden = summaryContainer.style.display === 'none';
+            summaryContainer.style.display = isHidden ? 'block' : 'none';
+            toggleBtn.textContent = isHidden ? 'Hide Case Status Summary' : 'Show Case Status Summary';
+        });
+    </script>
+</body>
+</html>
