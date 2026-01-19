@@ -1,126 +1,137 @@
-# --- FINAL VERSION WITH INTERACTIVE BROWSER BUTTON ---
+# --- FINAL REFACTORED VERSION WITH BROWSER AND CONSOLE OUTPUT ---
 import pandas as pd
 import sys
 import webbrowser
 import os
 
-print("-------------------------------------------------------------------------------------")
-print("Starting the data analysis script...")
-
-try:
-    # --- Step 1: Load and Clean the Data ---
-    print("Step 1: Loading and cleaning the Excel file...")
-    # (The cleaning logic remains the same)
-    df_raw = pd.read_excel("casefeed.csv", sheet_name=0, header=18)
-    df_raw.columns = df_raw.columns.str.strip()
-    final_columns = ["Case Number", "Subject", "Description", "Status"]
-    identifier_cols = ["Case Number", "Subject", "Status"]
-    df_raw[identifier_cols] = df_raw[identifier_cols].ffill()
-    df_raw.dropna(subset=["Case Number"], inplace=True)
-    df_raw['Description'] = df_raw['Description'].astype(str).fillna('')
-    df_grouped = df_raw.groupby("Case Number").agg({
-        'Subject': 'first',
-        'Description': lambda x: ' '.join(x).replace('nan', '').strip(),
-        'Status': 'first'
-    }).reset_index()
-    df_grouped['Case Number'] = df_grouped['Case Number'].astype(int)
-    df_final = df_grouped[final_columns]
-    print("Data cleaning complete.")
-
-    # --- Step 2: Generate HTML for BOTH tables ---
-    print("Step 2: Generating HTML for main report and status summary...")
-    # Main table for all cases
-    main_html_table = df_final.to_html(index=False, justify='left', classes='table table-striped table-hover')
-
-    # NEW: Create a summary DataFrame and convert it to a simple HTML table
-    status_summary_df = df_final.groupby("Status").size().reset_index(name='Total Cases')
-    summary_html_table = status_summary_df.to_html(index=False, justify='left', classes='table table-bordered mt-3')
-
-    # --- Step 3: Create the final HTML document with the button and hidden summary ---
-    html_template = f"""
-    <!DOCTYPE html>
-    <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Case Data Report</title>
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-        <style>
-            body {{ padding: 2rem; }}
-            h1 {{ margin-bottom: 1.5rem; }}
-            .table {{ table-layout: fixed; width: 100%; }}
-            th {{ white-space: nowrap; }}
-            td {{ word-break: break-word; }}
-            #summary-container {{ max-width: 600px; }} /* Limit width of summary table */
-            /* Column Widths */
-            .table th:nth-child(1), .table td:nth-child(1) {{ width: 10%; }}
-            .table th:nth-child(2), .table td:nth-child(2) {{ width: 25%; }}
-            .table th:nth-child(3), .table td:nth-child(3) {{ width: 50%; }}
-            .table th:nth-child(4), .table td:nth-child(4) {{ width: 15%; }}
-        </style>
-    </head>
-    <body>
-        <div class="container-fluid">
-            <h1>Case Data Report</h1>
-            <p>Total cases found: {len(df_final)}</p>
-            
-            <!-- NEW: The button to toggle the summary -->
-            <button id="toggle-summary-btn" class="btn btn-primary mb-3">Show Case Status Summary</button>
-            
-            <!-- NEW: The hidden container for the summary table -->
-            <div id="summary-container" style="display: none;">
-                <h2>Case Status Summary</h2>
-                {summary_html_table}
-            </div>
-
-            <hr> <!-- A separator line for clarity -->
-
-            <!-- The main table of all cases -->
-            <div class="table-responsive">
-                {main_html_table}
-            </div>
+# --- Part 1: Define the HTML Template ---
+# This remains separate for clarity.
+HTML_TEMPLATE = """
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Case Data Report</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {{ padding: 2rem; }}
+        h1 {{ margin-bottom: 1.5rem; }}
+        .table {{ table-layout: fixed; width: 100%; }}
+        th {{ white-space: nowrap; }}
+        td {{ word-break: break-word; }}
+        #summary-container {{ max-width: 600px; }}
+        .table th:nth-child(1), .table td:nth-child(1) {{ width: 10%; }}
+        .table th:nth-child(2), .table td:nth-child(2) {{ width: 25%; }}
+        .table th:nth-child(3), .table td:nth-child(3) {{ width: 50%; }}
+        .table th:nth-child(4), .table td:nth-child(4) {{ width: 15%; }}
+    </style>
+</head>
+<body>
+    <div class="container-fluid">
+        <h1>Case Data Report</h1>
+        <p>Total cases found: {total_cases}</p>
+        <button id="toggle-summary-btn" class="btn btn-primary mb-3">Show Case Status Summary</button>
+        <div id="summary-container" style="display: none;">
+            <h2>Case Status Summary</h2>
+            {summary_html_table}
         </div>
+        <hr>
+        <div class="table-responsive">{main_html_table}</div>
+    </div>
+    <script>
+        const toggleBtn = document.getElementById('toggle-summary-btn');
+        const summaryContainer = document.getElementById('summary-container');
+        toggleBtn.addEventListener('click', () => {{
+            const isHidden = summaryContainer.style.display === 'none';
+            summaryContainer.style.display = isHidden ? 'block' : 'none';
+            toggleBtn.textContent = isHidden ? 'Hide Case Status Summary' : 'Show Case Status Summary';
+        }});
+    </script>
+</body>
+</html>
+"""
 
-        <!-- NEW: JavaScript to make the button work -->
-        <script>
-            const toggleBtn = document.getElementById('toggle-summary-btn');
-            const summaryContainer = document.getElementById('summary-container');
+# --- Part 2: Create clear, single-purpose functions ---
 
-            toggleBtn.addEventListener('click', () => {{
-                if (summaryContainer.style.display === 'none') {{
-                    summaryContainer.style.display = 'block';
-                    toggleBtn.textContent = 'Hide Case Status Summary';
-                }} else {{
-                    summaryContainer.style.display = 'none';
-                    toggleBtn.textContent = 'Show Case Status Summary';
-                }}
-            }});
-        </script>
-    </body>
-    </html>
-    """
+def load_and_clean_data(filepath: str) -> pd.DataFrame:
+    """Loads and cleans the raw Excel file."""
+    print("Step 1: Loading and cleaning the Excel file...")
+    df = pd.read_excel(filepath, sheet_name=0, header=18)
+    df.columns = df.columns.str.strip()
+    df[["Case Number", "Subject", "Status"]] = df[["Case Number", "Subject", "Status"]].ffill()
+    df.dropna(subset=["Case Number"], inplace=True)
+    df['Description'] = df['Description'].astype(str).fillna('').str.replace('nan', '', case=False)
+    df_grouped = df.groupby("Case Number", as_index=False).agg({
+        'Subject': 'first',
+        'Description': ' '.join,
+        'Status': 'first'
+    })
+    df_grouped['Case Number'] = df_grouped['Case Number'].astype(int)
+    print("Data cleaning complete.")
+    return df_grouped[["Case Number", "Subject", "Description", "Status"]]
 
-    # --- Step 4 & 5: Save and open the file ---
-    filename = 'case_report.html'
+def generate_html_report(df: pd.DataFrame) -> str:
+    """Generates the full HTML content for the browser report."""
+    print("Step 2: Generating HTML report...")
+    main_table = df.to_html(index=False, justify='left', classes='table table-striped table-hover')
+    summary_df = df.groupby("Status").size().reset_index(name='Total Cases')
+    summary_table = summary_df.to_html(index=False, justify='left', classes='table table-bordered mt-3')
+    return HTML_TEMPLATE.format(
+        total_cases=len(df),
+        summary_html_table=summary_table,
+        main_html_table=main_table
+    )
+
+def save_and_open_in_browser(html_content: str, filename: str):
+    """Saves the HTML and opens it in a browser tab."""
     print(f"Step 3: Saving the report to '{filename}'...")
     with open(filename, 'w', encoding='utf-8') as f:
-        f.write(html_template)
-
+        f.write(html_content)
     print("Step 4: Opening the report in your default web browser...")
     full_path = os.path.abspath(filename)
-    webbrowser.open_new_tab('file://' + full_path)
+    webbrowser.open_new_tab(f'file://{full_path}')
 
-except Exception as e:
+# --- NEW: Function to print summary to the console ---
+def print_console_summary(df: pd.DataFrame):
+    """Calculates and prints the status summary to the console."""
     print("-------------------------------------------------------------------------------------")
-    print(f"AN UNEXPECTED ERROR OCCURRED: {e}")
-    print("The program will exit.")
+    print("Case Status Summary (Console Output):")
+    summary_df = df.groupby("Status").size().reset_index(name='Total Cases')
+    # Using .to_string() gives a nice table format in the console
+    print(summary_df.to_string(index=False))
     print("-------------------------------------------------------------------------------------")
-    sys.exit(1)
 
-print("-------------------------------------------------------------------------------------")
-print("Script finished successfully!")
-print("Your interactive report is now open in your browser.")
-print("The console is no longer needed for summaries.")
-print("You can close this window or press Ctrl+C to exit.")
-print("-------------------------------------------------------------------------------------")
-# The interactive console loop is removed as its functionality is now in the browser.
+# --- Part 3: Main function to orchestrate the script ---
+
+def main():
+    """Main function to run the entire data processing pipeline."""
+    print("-------------------------------------------------------------------------------------")
+    print("Starting the data analysis script...")
+    
+    input_file = "casefeed.csv"
+    output_file = "case_report.html"
+
+    try:
+        # The main workflow
+        clean_data = load_and_clean_data(input_file)
+        html_report = generate_html_report(clean_data)
+        save_and_open_in_browser(html_report, output_file)
+        
+        # --- ADDED BACK: Print the summary to the console ---
+        print_console_summary(clean_data)
+        
+        print("Script finished successfully!")
+        print("Your interactive report is open in your browser, and the summary is shown above.")
+        print("-------------------------------------------------------------------------------------")
+
+    except Exception as e:
+        print("-------------------------------------------------------------------------------------")
+        print(f"AN UNEXPECTED ERROR OCCURRED: {e}")
+        print("The program will exit.")
+        print("-------------------------------------------------------------------------------------")
+        sys.exit(1)
+
+# --- Part 4: Run the main function ---
+if __name__ == "__main__":
+    main()
