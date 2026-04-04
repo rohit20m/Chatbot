@@ -3,6 +3,7 @@ import pandas as pd
 import sys
 import webbrowser
 import os
+import matplotlib.pyplot as plt  # type: ignore
 
 # --- Part 1: Define the HTML Template ---
 # This remains separate for clarity.
@@ -28,6 +29,12 @@ HTML_TEMPLATE = """
     </style>
 </head>
 <body>
+
+    <div class="row">
+        <div class="col-md-6"><img src="bar.png" class="img-fluid"></div>
+        <div class="col-md-6"><img src="pie.png" class="img-fluid"></div>
+    </div>
+
     <div class="container-fluid">
         <h1>Case Data Report</h1>
         <p>Total cases found: {total_cases}</p>
@@ -54,14 +61,17 @@ HTML_TEMPLATE = """
 
 # --- Part 2: Create clear, single-purpose functions ---
 
+
 def load_and_clean_data(filepath: str) -> pd.DataFrame:
     """Loads and cleans the raw Excel file."""
     print("Step 1: Loading and cleaning the Excel file...")
     df = pd.read_excel(filepath, sheet_name=0, header=18)
     df.columns = df.columns.str.strip()
-    df[["Case Number", "Subject", "Status"]] = df[["Case Number", "Subject", "Status"]].ffill()
+    df[["Case Number", "Subject", "Status"]] = df[[
+        "Case Number", "Subject", "Status"]].ffill()
     df.dropna(subset=["Case Number"], inplace=True)
-    df['Description'] = df['Description'].astype(str).fillna('').str.replace('nan', '', case=False)
+    df['Description'] = df['Description'].astype(
+        str).fillna('').str.replace('nan', '', case=False)
     df_grouped = df.groupby("Case Number", as_index=False).agg({
         'Subject': 'first',
         'Description': ' '.join,
@@ -71,17 +81,21 @@ def load_and_clean_data(filepath: str) -> pd.DataFrame:
     print("Data cleaning complete.")
     return df_grouped[["Case Number", "Subject", "Description", "Status"]]
 
+
 def generate_html_report(df: pd.DataFrame) -> str:
     """Generates the full HTML content for the browser report."""
     print("Step 2: Generating HTML report...")
-    main_table = df.to_html(index=False, justify='left', classes='table table-striped table-hover')
+    main_table = df.to_html(index=False, justify='left',
+                            classes='table table-striped table-hover')
     summary_df = df.groupby("Status").size().reset_index(name='Total Cases')
-    summary_table = summary_df.to_html(index=False, justify='left', classes='table table-bordered mt-3')
+    summary_table = summary_df.to_html(
+        index=False, justify='left', classes='table table-bordered mt-3')
     return HTML_TEMPLATE.format(
         total_cases=len(df),
         summary_html_table=summary_table,
         main_html_table=main_table
     )
+
 
 def save_and_open_in_browser(html_content: str, filename: str):
     """Saves the HTML and opens it in a browser tab."""
@@ -93,6 +107,8 @@ def save_and_open_in_browser(html_content: str, filename: str):
     webbrowser.open_new_tab(f'file://{full_path}')
 
 # --- NEW: Function to print summary to the console ---
+
+
 def print_console_summary(df: pd.DataFrame):
     """Calculates and prints the status summary to the console."""
     print("-------------------------------------------------------------------------------------")
@@ -102,25 +118,69 @@ def print_console_summary(df: pd.DataFrame):
     print(summary_df.to_string(index=False))
     print("-------------------------------------------------------------------------------------")
 
+# Bar Plot Code
+
+
+def create_graphs(df):
+    print("Step: Creating graphs...")
+
+    # --- BAR CHART (Cases per Status) ---
+    status_counts = df["Status"].value_counts()
+
+    plt.figure()
+    status_counts.plot(kind='bar')
+    plt.title("Bar Plot Report: Cases per Status")
+    plt.xlabel("Status")
+    plt.ylabel("Count")
+    plt.tight_layout()
+    plt.savefig("bar.png")
+    plt.close()
+
+    # --- PIE CHART ---
+    plt.figure()
+    explode = [0.1 if count == status_counts.max() else 0 for count in status_counts]
+    status_counts.plot(kind='pie', autopct='%1.1f%%', explode=explode)
+    plt.title("Pie Chart Report: Case Status Distribution")
+    plt.ylabel("")  # remove extra label
+    plt.tight_layout()
+    plt.savefig("pie.png")
+    plt.close()
+
+    # --- SCATTER PLOT ---
+    df["Description Length"] = df["Description"].apply(len)
+
+    plt.figure()
+    plt.scatter(df["Case Number"], df["Description Length"])
+    plt.title("Case Number vs Description Length")
+    plt.xlabel("Case Number")
+    plt.ylabel("Description Length")
+    plt.tight_layout()
+    plt.savefig("scatter.png")
+    plt.close()
+
+    print("Graphs created successfully!")
+
 # --- Part 3: Main function to orchestrate the script ---
+
 
 def main():
     """Main function to run the entire data processing pipeline."""
     print("-------------------------------------------------------------------------------------")
     print("Starting the data analysis script...")
-    
+
     input_file = "casefeed.csv"
     output_file = "case_report.html"
 
     try:
         # The main workflow
         clean_data = load_and_clean_data(input_file)
+        create_graphs(clean_data)
         html_report = generate_html_report(clean_data)
         save_and_open_in_browser(html_report, output_file)
-        
+
         # --- ADDED BACK: Print the summary to the console ---
         print_console_summary(clean_data)
-        
+
         print("Script finished successfully!")
         print("Your interactive report is open in your browser, and the summary is shown above.")
         print("-------------------------------------------------------------------------------------")
@@ -131,6 +191,7 @@ def main():
         print("The program will exit.")
         print("-------------------------------------------------------------------------------------")
         sys.exit(1)
+
 
 # --- Part 4: Run the main function ---
 if __name__ == "__main__":
