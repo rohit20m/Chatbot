@@ -138,7 +138,8 @@ def create_graphs(df):
 
     # --- PIE CHART ---
     plt.figure()
-    explode = [0.1 if count == status_counts.max() else 0 for count in status_counts]
+    # explode = [0.1 if count == status_counts.max() else 0 for count in status_counts]
+    explode = [0.1 if status == "Fix in progress" else 0 for status in status_counts.index]
     status_counts.plot(kind='pie', autopct='%1.1f%%', explode=explode)
     plt.title("Pie Chart Report: Case Status Distribution")
     plt.ylabel("")  # remove extra label
